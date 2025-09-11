@@ -1,30 +1,37 @@
+// app/page.tsx
 "use client";
-import Navbar from "../components/navBar";
 import { useState } from "react";
-import Sidebar from "../components/sideBar";
-import MainContent from "../components/mainContent";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+import MainContent from "../components/MainContent";
+
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
-    
-    <div className="flex min-h-screen bg-gradient-to-r from-[#EAE9FE]  to-[#F8EDF7]">
-      {/* Sidebar */}
+    <div className="min-h-screen bg-gradient-to-r from-[#EAE9FE] to-[#F8EDF7] overflow-x-hidden">
+      <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
+
       <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
 
-      {/* Main area */}
+      {isOpen && (
+        <button
+          aria-label="Close menu backdrop"
+          onClick={() => setIsOpen(false)}
+          className="fixed inset-0 z-30 bg-black/30 md:hidden"
+        />
+      )}
+
       <div
-        className={`flex-1 transition-all duration-300 ${
-          isOpen ? "ml-64" : "ml-0"
+        className={`transform-gpu transition-transform duration-300 will-change-transform ${
+          isOpen ? "md:translate-x-64" : "translate-x-0"
         }`}
       >
-        <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
-        <MainContent></MainContent>
-        {/* <div className="p-6">
-          <h1 className="text-3xl font-bold">Main Content</h1>
-          <p className="mt-4 text-gray-700">
-            When the sidebar opens, this content shifts right.
-          </p>
-        </div> */}
+        <div className="px-3 sm:px-4">
+          <div className="mx-auto w-full max-w-[862px]">
+            <MainContent />
+          </div>
+        </div>
       </div>
     </div>
   );
